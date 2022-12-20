@@ -7,6 +7,7 @@
 >
 > 1. Robby Ulung Pambudi (5025211042)
 > 2. Sandyatama Fransisna Nugraha (5025211196)
+> 3. Hanafi Stary
 
 ## Problem
 
@@ -35,7 +36,28 @@ $$
 \int_{a}^{b} f(x) dx = Q[f] + E[f]
 $$
 
-fungsi diatas disebut rumus integral numerik atau kuadrat. Suku $E[f]$ disebut galat **Pemotongan Integral**. Nilai-nilai
+fungsi diatas disebut rumus integral numerik atau kuadrat. Suku $E[f]$ disebut galat **Pemotongan Integral**. Nilai-nilai $[x_{i}]_{i = 0} ^{N}$ disebut simpul-simpul kuadratur dan nilai nilai $[w_{i}]_{i = 0} ^{N}$ disebut bobot.
+
+Untuk menurunkan galat hampiran integral dari `O(h2)` menjadi `O(h2n + 2)` dapat digunakan ekstrapolasi Richardson seperti dinyatakan dalam teoream L
+
+$$
+Q = \frac{4^2 R_{k} (f_{k}h) - R_{k}(f_{k}2h)}{4^k -1} + O(h^{2k + 2})
+$$
+
+Jika didefinisikan barisan kuadratur ${I (i,j): i >= Bi -1 \times i >= 3}$ (Barisan aturan Boole Majemuk).
+
+Maka Integrasi romberg untuk meningkatkan keakuratan hampiran integral dapat di tulis sebagai.
+
+$$
+I_{j, k} = \frac{4^k I_{j, k-1} - I_{j-1, k-1}}{4^k - 1}
+$$
+
+Maka Implementasi code program adalah sebagai berikut
+
+```
+import numpy as np
+
+```
 
 ### Algortima
 
