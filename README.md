@@ -1,13 +1,13 @@
 # Praktikum_Komnum_2
 
-> Kelompok C01>
+> Kelompok C01
 > </br>
 > Nama Anggota :
 > </br>
 >
 > 1. Robby Ulung Pambudi (5025211042)
 > 2. Sandyatama Fransisna Nugraha (5025211196)
-> 3. Hanafi Stary
+> 3. Hanafi Satriyo Utomo Setiawan (5025211195)
 
 ## Problem
 
@@ -56,11 +56,77 @@ Maka Implementasi code program adalah sebagai berikut
 
 ```
 import numpy as np
+from tabulate import tabulate
 
+def trapezoidal(f, a, b, n):
+
+    h = (b - a) / n
+    x = a
+
+    In = f(a)
+    for k in range(1, n):
+        x = x + h
+        In += 2*f(x)
+
+    return (In + f(b))*h*0.5
+
+
+def romberg(f, a, b, p):
+
+    I = np.zeros((p, p))
+    for k in range(0, p):
+        I[k, 0] = trapezoidal(f, a, b, 2**k)
+
+        for j in range(0, k):
+            # Romberg formula
+            I[k, j+1] = (4**(j+1) * I[k, j] - I[k-1, j]) / (4**(j+1) - 1)
+    return I
+
+if __name__ == '__main__':
+
+    def f(x):
+        f = eval(func)
+        return f
+
+    func = input("Masukkan fungsi: ")
+    p_rows = (int (input("Masukkan jumlah baris: ")))
+    upper = (int (input("Masukkan batas atas: ")))
+    lower = (int (input("Masukkan batas bawah: ")))
+
+    I = romberg(f, upper, lower, p_rows)
+    solution = I[p_rows-1, p_rows-1]
+    solution = round(solution, 4)
+    print("Tabel Hasil:")
+    print(tabulate(I, tablefmt="fancy_grid"))
+    print("Hasil: ", solution)
 ```
 
-### Algortima
+#### Input
+
+```
+Masukkan fungsi: np.sin(x)
+Masukkan jumlah baris: 4
+Masukkan batas atas: 0
+Masukkan batas bawah: 3
+```
+
+#### Output
+
+Tabel Hasil:
+```
+╒═════════╤═════════╤═════════╤══════╕
+│ 0.21168 │ 0       │ 0       │ 0    │
+├─────────┼─────────┼─────────┼──────┤
+│ 1.60208 │ 2.06555 │ 0       │ 0    │
+├─────────┼─────────┼─────────┼──────┤
+│ 1.89583 │ 1.99374 │ 1.98895 │ 0    │
+├─────────┼─────────┼─────────┼──────┤
+│ 1.96662 │ 1.99021 │ 1.98998 │ 1.99 │
+╘═════════╧═════════╧═════════╧══════╛
+```
+Hasil: 1.99
 
 ## Refrensi
+ 1.  [Integrasi Numerik by Wahyu_Zainur](https://wahyuz98.github.io/Wahyu_Zainur.github.io/INTEGRASI_NUMERIK)
 
-[1]: https://wahyuz98.github.io/Wahyu_Zainur.github.io/INTEGRASI_NUMERIK/ 'Integrasi Numerik'
+2. [Tugas Romberg by Riyanhidayat0811](https://riyanhidayat0811.github.io/Tugas/Romberg/)

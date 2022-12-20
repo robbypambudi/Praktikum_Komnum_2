@@ -1,23 +1,11 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from tabulate import tabulate
 
-def trapezcomp(f, a, b, n):
-    """
-    Composite trapezoidal function integration
+def trapezoidal(f, a, b, n):
 
-    INPUTS:
-    f:  the function to integrate
-    a:  lower bound of integration
-    b:  upper bound
-    n:  number of panels to create between ``a`` and ``b``
-    """
-
-    # Initialization
     h = (b - a) / n
     x = a
 
-    # Composite rule
     In = f(a)
     for k in range(1, n):
         x = x + h
@@ -27,35 +15,30 @@ def trapezcomp(f, a, b, n):
 
 
 def romberg(f, a, b, p):
-    """
-    Romberg integration
-
-    INPUTS:
-    f:  the function to integrate
-    a:  lower bound of integration
-    b:  upper bound
-    p:  number of rows in the Romberg table
-    """
 
     I = np.zeros((p, p))
     for k in range(0, p):
-        # Composite trapezoidal rule for 2^k panels
-        I[k, 0] = trapezcomp(f, a, b, 2**k)
+        I[k, 0] = trapezoidal(f, a, b, 2**k)
 
-        # Romberg recursive formula
         for j in range(0, k):
+            # Romberg formula
             I[k, j+1] = (4**(j+1) * I[k, j] - I[k-1, j]) / (4**(j+1) - 1)
-
-        print(I[k, 0:k+1])   # display intermediate results
-
     return I
 
-
 if __name__ == '__main__':
-    def func(x):
-        return np.sin(x)
+  
+    def f(x):
+        f = eval(func)
+        return f
 
-    p_rows = 4
-    I = romberg(func, 0, np.pi/2, p_rows) 
+    func = input("Masukkan fungsi: ")
+    p_rows = (int (input("Masukkan jumlah baris: ")))
+    upper = (int (input("Masukkan batas atas: ")))
+    lower = (int (input("Masukkan batas bawah: ")))
+
+    I = romberg(f, upper, lower, p_rows) 
     solution = I[p_rows-1, p_rows-1]
-    print(solution)
+    solution = round(solution, 4)
+    print("Tabel Hasil:")
+    print(tabulate(I, tablefmt="fancy_grid"))
+    print("Hasil: ", solution)
